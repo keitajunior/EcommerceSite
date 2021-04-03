@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-sm-8 col-sm offset-2">
+        <h2>Enregistrer un nouveau produit</h2>
+        <form [formGroup]="produitForm" (ngSubmit)= "onSaveProduit()">
+            <div class="form-group">
+                <label for="nomProd">Nom du produit</label>
+                <input type="text" id="nomProd" class="form-control" formControlName="nomProduit">
+            </div>
+            <div class="form-group">
+                <label for="nomVendeur">Votre nom ?</label>
+                <input type="text" id="nomVendeur" class="form-control" formControlName="nomVendeur">
+            </div>
+            <div class="form-group">
+                <label for="contact">votre numéro ?</label>
+                <input type="tel" id="contact" 
+                       class="form-control" 
+                       formControlName="contactVendeur">
+                <small>format: 775472215</small>
+            </div>
+            <div class="form-group">
+                <label for="detail">petite description (facultatif)</label>
+                <input type="text" id="detail" class="form-control" formControlName="detail">
+            </div>
+            <button type="submit" class="btn btn-success" 
+                    [disabled]="produitForm.invalid">Enregistrer</button>
+        </form>    
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav">
+        <li routerLinkActive="active">
+          <a routerLink="produits">Mode & beauté</a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="produits/ajout">publier annonce</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li routerLinkActive="active">
+          <a routerLink="auth/annonce" *ngIf="!isAuth">Connexion</a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="auth/newaccount" *ngIf="!isAuth">Créer compte</a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="auth/profil" *ngIf="!isAuth">profil</a>
+        </li>
+        <li>
+          <a (click)="onSignOut()" *ngIf="isAuth" style="cursor: pointer;" >Déconnexion</a>
+        </li>
+      </ul>
+    </div>
+</nav>

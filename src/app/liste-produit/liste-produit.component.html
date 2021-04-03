@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-xs-12">
+        <h2>les produits disponibles</h2>
+        <div class="list-group">
+            <button class="list-group-item"
+                    *ngFor="let produit of produits; let i= index"
+                    (click) = onViewProduit(i)>
+                    <h3 class="list-group-item-heading">
+                        {{produit.nomProduit}} 
+                        <button class="btn btn-default pull-right"
+                                (click)="onDeleteProduit(produit)">
+                            <span class="glyphicon glyphicon-minus"></span> 
+                        </button>
+                        <p class="list-group-item-text">{{produit.nomVendeur}} </p>
+                    </h3>
+            </button>
+        </div>
+        <button class="btn btn-primary"(click)="onNewProduit()" >Ajouter produit</button>
+    </div>
+</div>
