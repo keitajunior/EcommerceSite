@@ -50,19 +50,17 @@ export class ProduitService {
   }
 
   removeProduit(produit:Produit) {
-    if(produit.photos) {
-      for (let tof of produit.photos){
-        const storageRef= firebase.storage().refFromURL(tof);
+    if(produit.photo) {
+        const storageRef= firebase.storage().refFromURL(produit.photo);
         storageRef.delete().then(
           ()=>{
-            console.log('photo supprimé');
+            console.log('Photo supprimée !');
           }
         ).catch(
           (error)=>{
             console.log('Fichier non trouvé :'+ error)
           }
-        )
-        }   
+        )  
     }
     const produitIndexToRemove = this.produits.findIndex(
       (produitEl) => {

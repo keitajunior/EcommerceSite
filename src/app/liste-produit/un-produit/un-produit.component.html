@@ -1,7 +1,9 @@
 <div class="row">
     <div class="col-xs-12">
+        <img style="max-width: 400px" *ngIf="produit.photo" [src]="produit.photo">
         <h1>{{produit.nomProduit}} </h1>
         <h3>{{produit.nomVendeur}} </h3>
+        <h3>{{produit.contactVendeur}} </h3>
         <button class="btn btn-default"
                 (click)="onReturn()">Retour</button>
     </div>

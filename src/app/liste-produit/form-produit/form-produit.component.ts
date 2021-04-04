@@ -12,6 +12,9 @@ import { ProduitService } from 'src/app/service/produit.service';
 export class FormProduitComponent implements OnInit {
 
   produitForm : FormGroup;
+  fileIsUploading = false;
+  fileUrl:string;
+  fileUploaded=false;
   constructor(private formBuilder: FormBuilder,
               private produitService: ProduitService,
               private router: Router) { }
@@ -25,7 +28,6 @@ export class FormProduitComponent implements OnInit {
       nomProduit: ['', Validators.required],
       nomVendeur: ['', Validators.required],
       contactVendeur: ['', Validators.required],
-      detail : ['']
     })
   }
 
@@ -33,9 +35,27 @@ export class FormProduitComponent implements OnInit {
     const nomProduit = this.produitForm.get('nomProduit').value;
     const nomVendeur = this.produitForm.get('nomVendeur').value;
     const contactVendeur = this.produitForm.get('contactVendeur').value;
-    const detail = this.produitForm.get('detail').value;
-    const newProduit = new Produit(nomProduit,nomVendeur,contactVendeur,detail);
+    // const detail = this.produitForm.get('detail').value ? this.produitForm.get('detail').value : '' ;
+    const newProduit = new Produit(nomProduit,nomVendeur,contactVendeur);
+    if (this.fileUrl && this.fileUrl !==''){
+      newProduit.photo = this.fileUrl;
+    }
     this.produitService.createNewProduit(newProduit);
     this.router.navigate(['/produits']);
+  }
+
+  onUploadFile(file:File){
+    this.fileIsUploading = true;
+    this.produitService.uploadFile(file).then(
+      (url:string)=>{
+        this.fileUrl = url;
+        this.fileIsUploading = false;
+        this.fileUploaded = true;
+      }
+    )
+  }
+
+  detectFiles(event){
+    this.onUploadFile(event.target.file[0]);
   }
 }
