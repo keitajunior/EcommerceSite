@@ -35,11 +35,14 @@ export class FormProduitComponent implements OnInit {
     const nomProduit = this.produitForm.get('nomProduit').value;
     const nomVendeur = this.produitForm.get('nomVendeur').value;
     const contactVendeur = this.produitForm.get('contactVendeur').value;
-    // const detail = this.produitForm.get('detail').value ? this.produitForm.get('detail').value : '' ;
+    const detail = this.produitForm.get('detail').value;
     const newProduit = new Produit(nomProduit,nomVendeur,contactVendeur);
+    newProduit.detail = detail;
+
     if (this.fileUrl && this.fileUrl !==''){
       newProduit.photo = this.fileUrl;
     }
+    
     this.produitService.createNewProduit(newProduit);
     this.router.navigate(['/produits']);
   }
@@ -54,8 +57,8 @@ export class FormProduitComponent implements OnInit {
       }
     )
   }
-
+  //methode permettant de relier input:file à la methode uploadFile
   detectFiles(event){
-    this.onUploadFile(event.target.file[0]);
+    this.onUploadFile(event.target.files[0]);
   }
 }

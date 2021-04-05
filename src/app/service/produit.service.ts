@@ -82,18 +82,47 @@ export class ProduitService {
           .child('images/' + almostUniqueFileName + file.name)
           .put(file);
           upload.on(firebase.storage.TaskEvent.STATE_CHANGED,
-            ()=>{
-              console.log('Chargement...');
+            (snapshot)=>{
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('telechargement ' + progress + '% fait');
+                switch (snapshot.state) {
+                  case firebase.storage.TaskState.PAUSED: // or 'paused'
+                    console.log('telechargement en pause');
+                    break;
+                  case firebase.storage.TaskState.RUNNING: // or 'running'
+                    console.log('telechargement...');
+                    break;
+                }
             },
             (error)=>{
-              console.log('Erreur de chargement'+ error);
-              reject();
-            },
-              ()=>{
-                resolve(upload.snapshot.downloadURL);
+              switch (error.code) {
+                case 'storage/unauthorized':
+                  // User doesn't have permission to access the object
+                  console.log('permission non accordée')
+                  break;
+                case 'storage/canceled':
+                  // User canceled the upload
+                  console.log('telechargement annulé')
+                  break;
+          
+                // ...
+          
+                case 'storage/unknown':
+                  // Unknown error occurred, inspect error.serverResponse
+                  console.log('inconnu erreur'+error.serverResponse)
+                  break;
+                  reject();
               }
-          )
-      }
-    )
+            },
+            ()=>{
+                resolve(upload.snapshot.ref.getDownloadURL().then(
+                  (downloadURL) => {
+                    console.log('fichier disponible sur ', downloadURL);
+                  })
+                ) 
+           }
+        )
+  })
   }
 }

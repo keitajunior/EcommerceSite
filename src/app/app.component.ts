@@ -12,7 +12,7 @@ export class AppComponent {
       authDomain: "ecom-55eed.firebaseapp.com",
       databaseURL: "https://ecom-55eed-default-rtdb.firebaseio.com",
       projectId: "ecom-55eed",
-      storageBucket: "ecom-55eed.appspot.com",
+      storageBucket: "gs://ecom-55eed.appspot.com",
       messagingSenderId: "373928518637",
       appId: "1:373928518637:web:0333ab15d447ebe4297de4"
     };
