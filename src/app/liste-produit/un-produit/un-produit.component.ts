@@ -19,7 +19,7 @@ export class UnProduitComponent implements OnInit {
     this.produit = new Produit('','','');
     const id = this.route.snapshot.params['id'];
     this.produitService.getSingleProduit(+id).then(
-      (produit:Produit)=> {
+      (produit: Produit)=> {
         this.produit = produit;
       }
     );

@@ -28,6 +28,7 @@ export class FormProduitComponent implements OnInit {
       nomProduit: ['', Validators.required],
       nomVendeur: ['', Validators.required],
       contactVendeur: ['', Validators.required],
+      detail:''
     })
   }
 

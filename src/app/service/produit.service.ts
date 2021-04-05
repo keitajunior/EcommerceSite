@@ -116,11 +116,11 @@ export class ProduitService {
               }
             },
             ()=>{
-                resolve(upload.snapshot.ref.getDownloadURL().then(
+                upload.snapshot.ref.getDownloadURL().then(
                   (downloadURL) => {
                     console.log('fichier disponible sur ', downloadURL);
-                  })
-                ) 
+                    resolve(downloadURL);
+                }) 
            }
         )
   })
