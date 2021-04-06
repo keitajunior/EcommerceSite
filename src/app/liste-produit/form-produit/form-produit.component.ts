@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Produit } from 'src/app/models/produit.model';
 import { ProduitService } from 'src/app/service/produit.service';
@@ -13,7 +13,7 @@ export class FormProduitComponent implements OnInit {
 
   produitForm : FormGroup;
   fileIsUploading = false;
-  fileUrl:string;
+  fileUrl:string[];
   fileUploaded=false;
   constructor(private formBuilder: FormBuilder,
               private produitService: ProduitService,
@@ -28,6 +28,7 @@ export class FormProduitComponent implements OnInit {
       nomProduit: ['', Validators.required],
       nomVendeur: ['', Validators.required],
       contactVendeur: ['', Validators.required],
+      photos: this.formBuilder.array([]),
       detail:''
     })
   }
@@ -36,14 +37,10 @@ export class FormProduitComponent implements OnInit {
     const nomProduit = this.produitForm.get('nomProduit').value;
     const nomVendeur = this.produitForm.get('nomVendeur').value;
     const contactVendeur = this.produitForm.get('contactVendeur').value;
-    const detail = this.produitForm.get('detail').value;
-    const newProduit = new Produit(nomProduit,nomVendeur,contactVendeur);
-    newProduit.detail = detail;
-
-    if (this.fileUrl && this.fileUrl !==''){
-      newProduit.photo = this.fileUrl;
-    }
+    const genre= this.produitForm.get('genre').value;
+    const newProduit = new Produit(nomProduit,nomVendeur,contactVendeur,genre);
     
+    newProduit.photos = [...this.fileUrl];
     this.produitService.createNewProduit(newProduit);
     this.router.navigate(['/produits']);
   }
@@ -52,7 +49,7 @@ export class FormProduitComponent implements OnInit {
     this.fileIsUploading = true;
     this.produitService.uploadFile(file).then(
       (url:string)=>{
-        this.fileUrl = url;
+        this.fileUrl.push(url);
         this.fileIsUploading = false;
         this.fileUploaded = true;
       }
@@ -61,5 +58,14 @@ export class FormProduitComponent implements OnInit {
   //methode permettant de relier input:file à la methode uploadFile
   detectFiles(event){
     this.onUploadFile(event.target.files[0]);
+  }
+
+  getPhotos() {
+    return this.produitForm.get('photos') as FormArray;
+  }
+
+  onAddPhoto(){
+    const newPhotocontrol = this.formBuilder.control('', Validators.required);
+    this.getPhotos().push(newPhotocontrol);
   }
 }
