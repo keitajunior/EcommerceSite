@@ -24,17 +24,33 @@
                     <option value="accessoire">Accessoire</option>
                 </select>
             </div>
-            <div formArrayName="photos">
-                <h4>Photos</h4>
-                <div class="form-group" *ngFor="let photoControl of getPhotos().controls; let i = index"> 
-                    <input type="file"
-                            (change)="detectFiles($event)" 
-                            class="form-control"
-                            accept="image/*" 
-                            [formControlName]="i">
-                    <p class="text-success" *ngIf="fileUploaded">fichier chargé!</p>
-                </div>
-                <button type="button" class="btn btn-info"(click)="onAddPhoto()">Ajouter une photo</button>
+            <!-- <div class="form-group">
+                <h4>Ajouter une photo</h4>
+                <input type="file" (change)="detectFiles($event)"
+                       class="form-control" accept="image/*">
+                <p class="text-success" *ngIf="fileUploaded">Fichier chargé !</p>
+            </div>  -->    
+
+            <!-- Le HTML nous ajoutons la directive dropzone à un div et écoutons les 
+            événements personnalisés qu'il émet. De plus, nous bouclons sur une 
+            liste de fichiers et rendons la tâche de téléchargement qui sera créée 
+            à l'étape suivante.  -->     
+
+            <div class="dropzone" 
+                 dropzone
+                 (hovered)="toggleHover($event)"
+                 (dropped)="onDrop($event)"
+                 [class.hovering]="isHovering">
+
+
+                <h3>Zone de collage</h3>
+                <p>Copiez et coller les images</p>
+            </div>
+
+            <h3>Téléchargement</h3>
+
+            <div *ngFor="let file of files">
+                <app-upload-task [file]="file"></app-upload-task>
             </div>
             <button type="submit" class="btn btn-success" 
                     [disabled]="produitForm.invalid || fileIsUploading">Enregistrer</button>

@@ -17,6 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { NewAccountComponent } from './auth/new-account/new-account.component';
+import { DropzoneDirective } from './dropzone.directive';
+import { UploadTaskComponent } from './upload-task/upload-task.component';
 
 
 @NgModule({
@@ -30,6 +32,8 @@ import { NewAccountComponent } from './auth/new-account/new-account.component';
     UnProduitComponent,
     NavigationComponent,
     NewAccountComponent,
+    DropzoneDirective,
+    UploadTaskComponent,
   ],
   imports: [
     BrowserModule,

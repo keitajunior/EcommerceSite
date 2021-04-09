@@ -50,8 +50,8 @@ export class ProduitService {
   }
 
   removeProduit(produit:Produit) {
-    for (let photo of produit.photos) {
-        const storageRef= firebase.storage().refFromURL(photo);
+    if (produit.photo) {
+        const storageRef= firebase.storage().refFromURL(produit.photo);
         storageRef.delete().then(
           ()=>{
             console.log('Photo supprimée !');

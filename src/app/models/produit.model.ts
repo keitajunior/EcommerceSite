@@ -5,6 +5,6 @@ export class Produit {
         public nomVendeur:string,
         public contactVendeur:string,
         public genre : string,
-        public photos?:string[]) {}
+        public photo?:string) {}
     ;
 }

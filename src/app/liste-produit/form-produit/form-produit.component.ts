@@ -13,7 +13,7 @@ export class FormProduitComponent implements OnInit {
 
   produitForm : FormGroup;
   fileIsUploading = false;
-  fileUrl:string[];
+  fileUrl :string;
   fileUploaded=false;
   constructor(private formBuilder: FormBuilder,
               private produitService: ProduitService,
@@ -28,8 +28,7 @@ export class FormProduitComponent implements OnInit {
       nomProduit: ['', Validators.required],
       nomVendeur: ['', Validators.required],
       contactVendeur: ['', Validators.required],
-      photos: this.formBuilder.array([]),
-      detail:''
+      genre:''
     })
   }
 
@@ -38,18 +37,20 @@ export class FormProduitComponent implements OnInit {
     const nomVendeur = this.produitForm.get('nomVendeur').value;
     const contactVendeur = this.produitForm.get('contactVendeur').value;
     const genre= this.produitForm.get('genre').value;
-    const newProduit = new Produit(nomProduit,nomVendeur,contactVendeur,genre);
+    var newProduit = new Produit(nomProduit,nomVendeur,contactVendeur,genre);
     
-    newProduit.photos = [...this.fileUrl];
+    /* if (this.fileUrl && this.fileUrl != ''){
+      newProduit.photo= this.fileUrl
+    } */
     this.produitService.createNewProduit(newProduit);
     this.router.navigate(['/produits']);
   }
 
-  onUploadFile(file:File){
+  /* onUploadFile(file:File){
     this.fileIsUploading = true;
     this.produitService.uploadFile(file).then(
       (url:string)=>{
-        this.fileUrl.push(url);
+        this.fileUrl = url;
         this.fileIsUploading = false;
         this.fileUploaded = true;
       }
@@ -57,15 +58,20 @@ export class FormProduitComponent implements OnInit {
   }
   //methode permettant de relier input:file à la methode uploadFile
   detectFiles(event){
-    this.onUploadFile(event.target.files[0]);
+      this.onUploadFile(event.target.files[0]);
+  } */
+
+  isHovering: boolean;
+
+  files: File[] = [];
+
+  toggleHover(event) {
+    this.isHovering = event;
   }
 
-  getPhotos() {
-    return this.produitForm.get('photos') as FormArray;
-  }
-
-  onAddPhoto(){
-    const newPhotocontrol = this.formBuilder.control('', Validators.required);
-    this.getPhotos().push(newPhotocontrol);
+  onDrop(event) {
+    for (let i = 0; i < event.target.files.length; i++) {
+      this.files.push(event.target.files.item(i));
+    }
   }
 }
